@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 晓涵的小日常</title>
+  <!-- 文艺字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <!-- 鼠标拖尾容器 -->
+  <div id="trail-container"></div>
+
+  <!-- 庆祝动画层 -->
+  <div id="celebrate-overlay" class="celebrate-overlay hidden">
+    <div class="celebrate-content">
+      <img id="celebrateGif" src="" alt="庆祝动画" class="celebrate-gif">
+      <div class="celebrate-text" id="celebrateText">蒋晓涵你太棒了！</div>
+      <div class="celebrate-sub" id="celebrateSub">存子给你点赞 👍</div>
+    </div>
+  </div>
+
+  <div class="app">
+    <!-- 左侧面板 -->
+    <aside class="panel left-panel">
+      <div class="clock" id="liveClock">00:00:00</div>
+      <div class="date" id="liveDate">2026年6月1日 星期一</div>
+
+      <!-- 存子小助理（移到顶部） -->
+      <div class="assistant-card">
+        <div class="assistant-header">🌟 存子小助理</div>
+        <div class="assistant-body">
+          <img id="assistantImg" src="" alt="存子" class="assistant-avatar">
+          <div class="assistant-bubble" id="assistantBubble">
+            <span id="bubbleText">蒋晓涵，今天也要加油呀~</span>
+          </div>
+        </div>
+        <div class="assistant-footer" id="assistantFooter">点击存子换一句话</div>
+      </div>
+
+      <!-- 视图切换（运势/风光） -->
+      <div class="view-switch">
+        <button class="switch-btn active" data-view="fortune">🌸 运势</button>
+        <button class="switch-btn" data-view="scenery">🏞️ 风光</button>
+      </div>
+
+      <!-- 运势卡片 -->
+      <div class="view-card" id="fortuneView">
+        <!-- 以下 .image-card 会被 CSS 隐藏，你也可以直接删除 -->
+        <div class="image-card">
+          <img id="dailyImage" src="" alt="每日影像">
+        </div>
+        <div class="fortune-card">
+          <div class="chinese-date" id="chineseDate">...</div>
+          <div class="animal" id="animalYear">...</div>
+          <div class="fortune-text" id="fortuneText">...</div>
+        </div>
+      </div>
+
+      <!-- 风光卡片 -->
+      <div class="view-card hidden" id="sceneryView">
+        <div class="image-card">
+          <img id="sceneryImage" src="" alt="中国风光">
+        </div>
+        <div class="scenery-location" id="sceneryLocation">📍 加载中...</div>
+      </div>
+    </aside>
+
+    <!-- 右侧任务主面板 -->
+    <main class="panel right-panel">
+      <h1 class="main-title">📋 我的任务</h1>
+      <!-- 其余内容不变 -->
+      <div class="tabs">
+        <button class="tab active" data-tab="all">全部</button>
+        <button class="tab" data-tab="progress">进行中</button>
+        <button class="tab" data-tab="completed">已完成</button>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="taskText" placeholder="✨ 写一个新任务...">
+        <div class="input-row">
+          <input type="time" id="taskTime" value="08:00">
+          <select id="taskPeriod"><option value="上午">上午</option><option value="下午">下午</option></select>
+          <input type="text" id="taskLocation" placeholder="📍 地点">
+          <button id="addBtn">添加</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <span>📋 <strong id="totalCount">0</strong></span>
+        <span>⚡ <strong id="activeCount">0</strong></span>
+        <span>✅ <strong id="completedCount">0</strong></span>
+      </div>
+
+      <ul id="taskList" class="task-list"></ul>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

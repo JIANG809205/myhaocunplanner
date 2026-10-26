@@ -1,0 +1,728 @@
+/* ---------- 全局变量 ---------- */
+:root {
+  --bg-blur: 12px;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-strong: rgba(255, 255, 255, 0.75);
+  --text: #2c3e50;
+  --muted: #5d6d7e;
+  --accent: #d4a373;
+  --accent2: #b5838d;
+  --accent3: #e6a7b5;
+  --radius: 24px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'ZCOOL XiaoWei', 'PingFang SC', 'Microsoft YaHei', serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: background-image 1s;
+  color: var(--text);
+  position: relative;
+}
+
+/* 背景毛玻璃层 */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: inherit;
+  filter: blur(8px) brightness(0.95);
+  z-index: -2;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: -1;
+}
+
+/* 主布局 */
+.app {
+  display: flex;
+  gap: 20px;
+  max-width: 1300px;
+  width: 100%;
+  min-height: 85vh;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+/* 面板 */
+.panel {
+  border-radius: var(--radius);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: var(--shadow);
+  padding: 25px;
+}
+
+/* 左侧面板 */
+.left-panel {
+  width: 440px;
+  background: var(--glass);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+/* 时钟 */
+.clock {
+  font-size: 46px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent2);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.date {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+/* 视图切换按钮 */
+.view-switch {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.switch-btn {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.7);
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 700;
+}
+.switch-btn.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 5px 15px rgba(212,163,115,0.4);
+}
+
+.view-card { width: 100%; }
+.hidden { display: none; }
+
+/* 图片卡片 */
+.image-card {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+}
+.image-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.6s;
+  display: block;
+}
+.image-card:hover img {
+  transform: scale(1.03);
+}
+
+/* 运势卡片 */
+.fortune-card {
+  background: rgba(255,250,240,0.8);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  text-align: left;
+}
+.chinese-date { font-size: 20px; font-weight: 700; }
+.animal { font-size: 16px; margin: 6px 0; color: var(--muted); }
+.fortune-text { font-size: 16px; color: #5c4b3c; margin-top: 6px; line-height: 1.6; }
+
+/* 风光地点 */
+.scenery-location {
+  font-size: 20px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.8);
+  padding: 10px;
+  border-radius: 16px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+/* 存子小助理 */
+.assistant-card {
+  width: 100%;
+  background: rgba(255,245,250,0.8);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+.assistant-header {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent2);
+  margin-bottom: 10px;
+}
+.assistant-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.assistant-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+.assistant-avatar:hover {
+  transform: scale(1.1);
+}
+.assistant-bubble {
+  flex: 1;
+  background: white;
+  border-radius: 16px;
+  padding: 10px 14px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: left;
+  font-size: 14px;
+  color: var(--text);
+}
+.assistant-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: white;
+}
+.assistant-footer {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.assistant-footer:hover {
+  color: var(--accent2);
+}
+
+/* 右侧任务面板 */
+.right-panel {
+  flex: 1;
+  background: var(--glass-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+}
+.main-title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.tabs { display: flex; gap: 10px; }
+.tab {
+  background: rgba(0,0,0,0.04);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 700;
+  color: var(--muted);
+}
+.tab.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 5px 15px rgba(212,163,115,0.4);
+}
+
+/* 输入区域 */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.input-group input, .input-group select, .input-group button {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(5px);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+.input-group input:focus, .input-group select:focus {
+  background: white;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(212,163,115,0.2);
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#taskText { flex: 3; min-width: 150px; }
+#taskTime { flex: 1.2; }
+#taskPeriod { flex: 1; }
+#taskLocation { flex: 2; }
+#addBtn {
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 1.2;
+  min-width: 80px;
+}
+#addBtn:hover {
+  background: #b88a5c;
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(212,163,115,0.4);
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  font-size: 16px;
+  color: var(--muted);
+  padding: 5px 0;
+}
+.stats strong { color: var(--accent2); margin-left: 5px; }
+
+/* 任务列表 */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 5px;
+}
+
+.task-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 22px;
+  padding: 16px 20px;
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  transition: all 0.3s;
+}
+.task-item:hover {
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* 任务卡片光晕 */
+.task-item::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,240,0.7) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 0;
+}
+.task-item:hover::after {
+  opacity: 0.5;
+}
+
+.task-header, .task-detail, .btn-group {
+  position: relative;
+  z-index: 2;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.task-text { flex: 1; font-size: 18px; font-weight: 700; }
+.status-badge {
+  font-size: 13px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+.status-planned { background: #f0f0f0; color: #666; }
+.status-progress { background: #ffe0b2; color: #e65100; animation: pulse 1.5s infinite; }
+.status-completed { background: #c8e6c9; color: #2e7d32; }
+
+.timer-display {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent2);
+  background: rgba(255,255,255,0.6);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.task-detail {
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  gap: 15px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.btn-group button {
+  border: none;
+  background: rgba(0,0,0,0.05);
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 700;
+  transition: all 0.2s;
+  backdrop-filter: blur(5px);
+}
+.btn-group button:hover {
+  background: rgba(0,0,0,0.12);
+  transform: scale(1.06);
+}
+
+/* 庆祝动画层 */
+.celebrate-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.5s;
+}
+.celebrate-overlay.hidden {
+  display: none;
+}
+.celebrate-content {
+  background: white;
+  border-radius: 30px;
+  padding: 40px 50px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: celebrateBounce 0.6s ease;
+}
+.pixel-character {
+  font-size: 80px;
+  animation: pixelJump 0.8s ease infinite;
+}
+.celebrate-text {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent2);
+  margin: 20px 0 10px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.celebrate-sub {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+@keyframes celebrateBounce {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pixelJump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(230,81,0,0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(230,81,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(230,81,0,0); }
+}
+
+/* 鼠标拖尾 */
+.trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: rgba(212, 163, 115, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(212, 163, 115, 0.6), 0 0 20px rgba(212, 163, 115, 0.3);
+  animation: trailFade 0.8s linear forwards;
+}
+@keyframes trailFade {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.2); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .app { flex-direction: column; }
+  .left-panel { width: 100%; }
+  .image-card img { height: 220px; }
+}
+/* 进度条样式 */
+.progress-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  border-radius: 20px;
+  transition: width 0.2s;
+}
+.progress-text {
+  font-size: 13px;
+  font-weight: bold;
+  min-width: 40px;
+  color: var(--muted);
+}
+.progress-btn {
+  background: #e0e0e0;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.progress-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+/* 大头照进度区域 */
+.cute-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  background: rgba(255,240,230,0.5);
+  padding: 6px 12px;
+  border-radius: 40px;
+  backdrop-filter: blur(4px);
+}
+.progress-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ffb347;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  object-fit: cover;
+  background: white;
+}
+.cute-progress .progress-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e67e22;
+  min-width: 50px;
+}
+.cute-progress .progress-btn {
+  background: #ffe0b3;
+  border: none;
+  border-radius: 30px;
+  padding: 4px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: auto;
+}
+.cute-progress .progress-btn:hover {
+  background: #ffb347;
+  color: white;
+  transform: scale(1.02);
+}
+.celebrate-gif {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: #fff9f0;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.progress-avatar {
+  border: 4px solid #ffa500;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #ffa500; /* 双层边框可爱效果 */
+}
+.more-fortune-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 30px;
+  background: #b5838d;
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.more-fortune-btn:hover {
+  background: #9e6d77;
+  transform: scale(1.02);
+}
+/* 1. 隐藏运势视图中的每日图片 */
+#fortuneView .image-card {
+  display: none;
+}
+
+/* 2. 风光视图图片铺满宽度（高度自适应，保持比例） */
+#sceneryView .image-card {
+  width: 100%;
+  margin: 0;
+}
+#sceneryView .image-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;  /* 可选，与原有风格一致 */
+}
+
+/* 3. 小助理头像放大 */
+.assistant-avatar {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 4. 调整小助理卡片内部布局，适应大头像 */
+.assistant-body {
+  gap: 18px;
+  align-items: center;
+}
+.assistant-bubble {
+  font-size: 18px;
+  padding: 12px 18px;
+}
+
+/* 5. （可选）视图切换按钮下移，让整体更舒展 */
+.view-switch {
+  margin-top: 20px;
+}
+
+/* 6. 如果你希望风光图片有固定高度且铺满（裁剪），取消下面注释 */
+/* #sceneryView .image-card img {
+  height: 280px;
+  object-fit: cover;
+} */
+ /* 运势卡片背景用图片填充 */
+/* 1. 运势卡片背景图片（.webp 格式） + 增加最小高度 */
+/* 运势卡片 - 背景图片填充 + 足够高度 */
+/* 运势卡片 - 增加高度 + 背景图片 */
+
+.fortune-card {
+  /* 关键：背景图片路径必须是 /images/ 开头 */
+  background-image: url('/images/fortune-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 高度一定要够，建议用 min-height 或固定高度 */
+  min-height: 420px;      /* 保证所有内容显示，并有足够下方空间 */
+  height: auto;           /* 允许内容撑开 */
+  
+  border-radius: 24px;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  color: #2c3e50;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  
+  /* 如果背景图未加载，显示浅色底纹 */
+  background-color: #fdf8ed;
+}
+
+/* 半透明白色遮罩，提升文字可读性 */
+.fortune-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.437);
+  border-radius: 24px;
+  z-index: -1;
+}
+
+/* 确保卡片内部文字不受定位影响 */
+.fortune-card > * {
+  position: relative;
+  z-index: 2;
+}
+/* 2. 风光图片高度增加（铺满且更高） */
+#sceneryView .image-card img {
+  width: 100%;
+  height: 420px;          /* 可根据需要改为 400px 或 50vh */
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+}
+
+/* 确保风光卡片容器没有额外边距 */
+#sceneryView .image-card {
+  margin-bottom: 0;
+}
